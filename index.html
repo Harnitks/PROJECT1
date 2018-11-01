@@ -11,12 +11,46 @@
 </head>
 
 <body>
+
+
+    <section class="game-start">
+
+        <p>PENGUIN JUMP</p>
+        <button class="start">START</button>
+
+
+    </section>
     <header>
         <h1>Penguin Jump</h1>
+        <div class="scorebox">
+            <h2>Score</h2>
+            <h3 class="score">0</h3>
+        </div>
     </header>
-    <hr>
-    <canvas class="canvas" width="1200" height="550" style=" border: black 2px solid"></canvas>
+    <div class="general">
+        <canvas class="canvas" width="1200" height="550" style=" border: black 2px solid ">
 
+        </canvas>
+        <section class="game-end">
+
+            <div class="final-screen-first">
+                <!-- <h2>You Win !</h2> -->
+                <img class="win" src="./images/win-screen.png" alt="" />
+                <a href="file:///Users/SINGH/code/projects/index.html"><button class="restart">Play Again</button></a>
+            </div>
+
+        </section>
+
+        <section class="game-over">
+
+            <div class="final-screen">
+                <!-- <h2>You Loose !</h2> -->
+                <!-- <img class="lose" src="./images/lose-screen.png" alt="" /> -->
+                <a href="file:///Users/SINGH/code/projects/index.html"><button class="restart">Play Again</button></a>
+            </div>
+
+        </section>
+    </div>
     <script src="./js/script.js"></script>
 </body>
 

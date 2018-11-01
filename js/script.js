@@ -1,14 +1,25 @@
 var canvas = document.querySelector(".canvas");
 
+canvas.style.visibility = "hidden";
+
+var startBtn = document.querySelector(".start");
+var startScreen = document.querySelector(".game-start");
+var header = document.querySelector("header");
+startBtn.onclick = function() {
+  canvas.style.visibility = "visible";
+  startScreen.style.display = "none";
+  header.style.display = "block";
+};
+
 var ctx = canvas.getContext("2d");
 
 var penguinImg = new Image();
-penguinImg.src = "./images/jumping-penguin.jpg";
+penguinImg.src = "./images/jumping-penguin.png";
 
 var penguin = {
-  height: 100,
+  height: 90,
   jumping: true,
-  width: 100,
+  width: 90,
   x: 144, // center of the canvas
   x_velocity: 0,
   y: 0,
@@ -51,17 +62,16 @@ class Pipe {
 new Pipe(970, 0, 30, 250);
 
 var collisionObj = new Collision();
-
+var restartBtn = document.querySelector(".restart");
 function drawingLoop() {
   ctx.clearRect(0, 0, 1200, 550);
-  // penguin.y += 2;
-  // if (penguin.y > 550) {
-  //   penguin.y = 0;
-  // }
-
   drawEverything();
+
   if (penguin.y > 550) {
-    gameOver.drawMe();
+    gameOverSection();
+  }
+  if (score === 1000) {
+    gameEndSection();
   }
   requestAnimationFrame(function() {
     drawingLoop();
@@ -286,13 +296,17 @@ controller = {
     switch (event.keyCode) {
       case 37: // left key
         controller.left = key_state;
+
         break;
       case 38: // up key
         controller.up = key_state;
+
         console.log("hey");
+
         break;
       case 39: // right key
         controller.right = key_state;
+
         break;
     }
   }
@@ -388,6 +402,7 @@ function Collision() {
     for (var i = 0; i < platforms.length; i++) {
       if (this.checkTopCollision(player, platforms[i])) {
         // player.animation.resetYValueAfterCollision(platforms[i].y);
+
         player.y = platforms[i].y - 90;
         player.y_velocity = 0;
         player.jumping = false;
@@ -403,8 +418,12 @@ function Collision() {
             var yDifference = player.ground - player.y;
             player.ground = player.y;
             movePlatforms(yDifference);
+            score += 50;
+            scoreCounter.innerHTML = score;
+            console.log(score);
           }
         }
+
         return true;
       }
     }
@@ -412,28 +431,24 @@ function Collision() {
   };
 }
 
+var score = 0;
+var scoreCounter = document.querySelector(".score");
+
 function movePlatforms(difference) {
   allPipes.forEach(function(onePipe) {
     onePipe.targetY += difference;
   });
 }
 
-var gameOver = {
-  opacity: 0,
-  drawMe: function() {
-    this.opacity += 0.01;
+var gameOverScreen = document.querySelector(".game-over");
+function gameOverSection() {
+  gameOverScreen.style.display = "flex";
+}
 
-    ctx.globalAlpha = this.opacity;
-    ctx.font = "bold 70px monospace";
-    ctx.shadowColor = "green";
-    ctx.fillStyle = "tomato";
-    ctx.fillText("Game Over", 425, 225);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = "red";
-    ctx.strokeText("Game Over", 425, 225);
-    ctx.globalAlpha = 1;
-  }
-};
+var gameEndScreen = document.querySelector(".game-end");
+function gameEndSection() {
+  gameEndScreen.style.display = "flex";
+}
 
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keyup", controller.keyListener);
